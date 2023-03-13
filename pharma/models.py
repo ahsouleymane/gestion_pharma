@@ -20,9 +20,13 @@ class Pharmacie(models.Model):
 
     def __str__(self):
         return self.designation
+
+class Produit(models.Model):
+    designation = models.CharField(max_length=40, null=True)
     
 class Stock(models.Model):
-    Medicament=models.CharField(max_length=100)
-    quantite = models.IntegerField(null=True)
+    pharmacie = models.ForeignKey(Pharmacie, null=True, on_delete=models.SET_NULL)
+    produit = models.ForeignKey(Produit, null=True, on_delete=models.SET_NULL)
+    quantite_stock = models.IntegerField(null=True)
     unite = models.CharField(max_length=60, null=True)
 
