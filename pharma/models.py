@@ -23,10 +23,14 @@ class Pharmacie(models.Model):
 
 class Produit(models.Model):
     designation = models.CharField(max_length=40, null=True)
+    date_ajout = models.DateTimeField(auto_now_add=True)
+    date_modif = models.DateTimeField(auto_now=True)
     
 class Stock(models.Model):
     pharmacie = models.ForeignKey(Pharmacie, null=True, on_delete=models.SET_NULL)
     produit = models.ForeignKey(Produit, null=True, on_delete=models.SET_NULL)
     quantite_stock = models.IntegerField(null=True)
     unite = models.CharField(max_length=60, null=True)
+    date_ajout = models.DateTimeField(auto_now_add=True)
+    date_modif = models.DateTimeField(auto_now=True)
 
