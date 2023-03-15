@@ -3,6 +3,7 @@ from pharma import views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
+    path('', views.acceuil, name='acceuil'),
     path('login/', auth_views.LoginView.as_view(template_name='auth/login.html'), name='login'),
     path('ajouter_pharmacie/', views.ajouter_pharmacie, name='ajouter_pharmacie'),
     path('editer_pharmacie/<int:pk>/', views.editer_pharmacie, name='editer_pharmacie'),

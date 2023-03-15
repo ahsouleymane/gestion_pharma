@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 
 # Create your views here.
 
+def acceuil(request):
+    return redirect(request, 'pharma/acceuil.html')
+
 def ajouter_pharmacie(request):
     pass
 
