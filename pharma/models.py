@@ -8,8 +8,6 @@ class PharmacieAndAccount(models.Model):
     designation = models.CharField(max_length=40, null=True)
     adresse = models.CharField(max_length=40, null=True)
     telephone = models.CharField(max_length=15, null=True)
-    email = models.CharField(max_length=60, null=True)
-    pays  = models.CharField(max_length=60, null=True)
     ville = models.CharField(max_length=60, null=True)
     longitude = models.FloatField(max_length=40, null=True)
     latitude = models.FloatField(max_length=40, null=True)
