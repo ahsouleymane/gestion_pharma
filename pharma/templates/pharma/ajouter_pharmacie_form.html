@@ -1,0 +1,31 @@
+{% load crispy_forms_tags %}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+
+<form action="" method="POST">
+
+{% csrf_token %}
+
+{{ form.designation | as_crispy_field }}
+{{ form.adresse | as_crispy_field }}
+{{ form.telephone | as_crispy_field }}
+{{ form.ville | as_crispy_field }}
+{{ form.longitude | as_crispy_field }}
+{{ form.latitude | as_crispy_field }}
+
+{{ form1.username | as_crispy_field }}
+{{ form1.email | as_crispy_field }}
+{{ form1.password1 | as_crispy_field }}
+{{ form1.password2 | as_crispy_field }}
+
+<button class="btn" type="submit" name="submit">
+    valider formulaire
+</button>
+
+</form>
+
+</html>
+
+{% endblock %}
