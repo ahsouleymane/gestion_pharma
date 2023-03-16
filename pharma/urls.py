@@ -9,9 +9,11 @@ urlpatterns = [
     
     path('ajouter_pharmacie_form/', views.ajouter_pharmacie, name='ajouter_pharmacie_form'),
     
-    path('editer_pharmacie/<int:pk>/', views.editer_pharmacie, name='editer_pharmacie'),
+    path('list_pharmacie/', views.list_pharmacie, name='list_pharmacie'),
+
+    path('editer_pharmacie_form/<int:pk>/', views.editer_pharmacie, name='editer_pharmacie_form'),
     
-    path('supprimer_pharmacie/<int:pk>/', views.supprimer_pharmacie, name='supprimer_pharmacie'),
+    path('supprimer_pharmacie_form/<int:pk>/', views.supprimer_pharmacie, name='supprimer_pharmacie_form'),
     
     path('ajouter_stock/', views.ajouter_stock, name='ajouter_stock'),
     

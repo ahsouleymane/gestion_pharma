@@ -25,15 +25,40 @@ def ajouter_pharmacie(request):
                 if instance1 is not None:
                     instance1.save()
                     instance.save()
+
+            return redirect('/list_pharmacie/')
                     
     context = {'form': form, 'form1': form1}
     return render(request, 'pharma/ajouter_pharmacie_form.html', context)
 
-def editer_pharmacie(request):
-    pass
+def list_pharmacie(request):
+    pharmacie = Pharmacie.objects.all()
+    context = {'pharmacie': pharmacie}
+    return render(request, 'pharma/list_pharmacie.html', context)
 
-def supprimer_pharmacie(request):
-    pass
+def editer_pharmacie(request, pk):
+    pharmacie = Pharmacie.objects.get(id=pk)
+    form = PharmacieForm(instance = pharmacie)
+
+    if request.method == 'POST':
+        form = PharmacieForm(request.POST, instance = pharmacie)
+
+        if form.is_valid():
+            form.save()
+            return redirect('/list_pharmacie/')
+                    
+    context = {'form': form}
+    return render(request, 'pharma/editer_pharmacie_form.html', context)
+
+def supprimer_pharmacie(request, pk):
+    pharmacie = Pharmacie.objects.get(id=pk)
+
+    if request.method == 'POST':
+        pharmacie.delete()  
+        return redirect('/list_pharmacie/')
+    
+    context = {'pharmacie': pharmacie}
+    return render(request, 'pharma/supprimer_pharmacie_form.html', context)
 
 def charger_produit_avec_fichier(request):
     pass

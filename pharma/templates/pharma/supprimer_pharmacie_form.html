@@ -1,0 +1,15 @@
+{% block content %}
+
+<form action="{% url 'supprimer_pharmacie_form' pharmacie.id %}" method="POST">
+
+    {% csrf_token %}
+
+    <strong><p>Etes vous sure de vouloir supprimer "{{pharmacie}}" ?</p></strong>
+
+    <button class="btn" type="submit" name="submit">
+        valider
+    </button>
+
+</form>
+
+{% endblock %}
