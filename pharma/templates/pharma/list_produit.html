@@ -1,0 +1,15 @@
+{% block content %}
+
+<table class="table table-sm">
+    <tr>
+        <th>Produits Pharmaceutiques</th>
+    </tr>
+
+    {% for p in produit %}
+        <tr>
+            <td>{{ p.designation }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 from pharma.forms import *
 from pharma.models import *
+from .resources import ProduitResource
+from tablib import Dataset
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -61,7 +65,31 @@ def supprimer_pharmacie(request, pk):
     return render(request, 'pharma/supprimer_pharmacie_form.html', context)
 
 def charger_produit_avec_fichier(request):
-    pass
+    if request.method == 'POST':
+        produit_resource = ProduitResource()
+        dataset = Dataset()
+        nouveau_produit = request.FILES['monFichier']
+
+        if not nouveau_produit.name.endswith('xlsx'):
+            messages.info(request, 'Mauvais format !!!')
+            return render(request, 'pharma/charger_produit_form.html')
+        
+        imported_data = dataset.load(nouveau_produit.read(), format='xlsx')
+        for data in imported_data:
+            value = Produit(
+                data[0],
+                data[1],
+                data[2],
+                data[3],
+            )
+            value.save()
+        return redirect('/list_produit/')
+    return render(request, 'pharma/charger_produit_form.html')
+
+def list_produit(request):
+    produit = Produit.objects.all()
+    context = {'produit': produit}
+    return render(request, 'pharma/list_produit.html', context)
 
 def ajouter_stock(request):
     pass
