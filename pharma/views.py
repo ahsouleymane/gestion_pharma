@@ -7,6 +7,9 @@ from .resources import ProduitResource
 from tablib import Dataset
 from django.http import HttpResponse
 
+from geopy.geocoders import Nominatim
+from geopy.distance import geodesic # this fonction calculate distance
+
 # Create your views here.
 
 def acceuil(request):
@@ -66,7 +69,7 @@ def supprimer_pharmacie(request, pk):
 
 def charger_produit_avec_fichier(request):
     if request.method == 'POST':
-        produit_resource = ProduitResource()
+        #produit_resource = ProduitResource()
         dataset = Dataset()
         nouveau_produit = request.FILES['monFichier']
 
