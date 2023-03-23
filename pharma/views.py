@@ -195,6 +195,13 @@ def localisation_et_calcule_de_distance(request):
     # Location marker
     folium.Marker([x_lat, x_lon], tooltip='click here for more', popup=city['city'], 
                     icon=folium.Icon(color='purple')).add_to(m)
+    
+    pharmacies = Pharmacie.objects.all()
+
+    for pharmacie in pharmacies:
+        coordinates = (pharmacie.latitude, pharmacie.longitude)
+        folium.Marker(coordinates, popup=pharmacie.designation, 
+                      icon=folium.Icon(color='green')).add_to(m)
 
     m = m._repr_html_()
 

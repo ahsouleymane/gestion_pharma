@@ -33,14 +33,14 @@ class UniteForm(forms.ModelForm):
 class PharmacieForm(forms.ModelForm):
     class Meta:
         model = Pharmacie
-        fields = ['designation', 'adresse', 'telephone', 'ville', 'longitude', 'latitude',]
+        fields = ['designation', 'adresse', 'telephone', 'ville', 'latitude', 'longitude']
         labels = {
             'designation': 'Désignation',
             'adresse': 'Adresse',
             'telephone': 'Téléphone',
             'ville': 'Ville',
-            'longitude': 'Longitude',
             'latitude': 'Latitude',
+            'longitude': 'Longitude',
         }
 
 class ProduitForm(forms.ModelForm):

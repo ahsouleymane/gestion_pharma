@@ -16,8 +16,8 @@ class Pharmacie(models.Model):
     adresse = models.CharField(max_length=40, null=True)
     telephone = models.CharField(max_length=15, null=True)
     ville = models.CharField(max_length=60, null=True)
-    longitude = models.FloatField(max_length=40, null=True)
     latitude = models.FloatField(max_length=40, null=True)
+    longitude = models.FloatField(max_length=40, null=True)
     date_ajout = models.DateTimeField(auto_now_add=True)
     date_modif = models.DateTimeField(auto_now=True)
 
