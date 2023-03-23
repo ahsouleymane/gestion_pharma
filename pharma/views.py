@@ -1,14 +1,21 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+
 from pharma.forms import *
 from pharma.models import *
+from .utils import *
+
 from .resources import ProduitResource
 from tablib import Dataset
 from django.http import HttpResponse
 
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic # this fonction calculate distance
+
+import folium
+import requests
+import json, urllib
 
 # Create your views here.
 
@@ -102,3 +109,95 @@ def mettre_a_jour_stock(request):
 
 def rechercher_produit_en_fonction_de_pharmacie_et_stock(request):
     pass
+
+def localisation_et_calcule_de_distance(request):
+    #### Distances calculation
+
+    # Initial values
+    distance = None
+    destination = None
+
+    # Location coordinates using json
+    r = requests.get('https://get.geojs.io/')
+    ip_request = requests.get('https://get.geojs.io/v1/ip.json')
+    ip_add = ip_request.json()['ip']
+    #print(ip_add)
+
+    url = 'https://get.geojs.io/v1/ip/geo/'+ip_add+'.json'
+    geo_request = requests.get(url)
+    geo_data = geo_request.json()
+    #print(geo_data)
+
+    # Location coordinates
+    x_lat = float(geo_data['latitude'])
+    x_lon = float(geo_data['longitude'])
+    #print(x_lat, x_lon)
+
+    pointA = (x_lat, x_lon)
+
+    geolocator = Nominatim(user_agent='near')
+    country, city, lat, lon = get_geo(ip_add)
+    location = geolocator.geocode(city)
+
+    
+    number_of_location = Pharmacie.objects.all().count()
+    #print('Number of location: ', number_of_location)
+
+    locations = []
+
+    parcourt = 0
+    while parcourt < number_of_location:
+
+        locations = Pharmacie.objects.values_list('designation', flat=True)
+        parcourt += 1
+
+    #print(locations)
+
+
+    latitudes = []
+    longitudes = []
+
+    parcourt = 0
+    while parcourt < number_of_location:
+
+        latitudes = Pharmacie.objects.values_list('latitude', flat=True)
+        longitudes = Pharmacie.objects.values_list('longitude', flat=True)
+
+        parcourt += 1
+
+    #print(latitudes)
+    #print(longitudes)
+
+    distances = []
+
+    parcourt = 0
+    while parcourt < number_of_location and parcourt < len(latitudes) and parcourt < len(longitudes):
+        
+        d_lat = latitudes[parcourt]
+        d_lon = longitudes[parcourt]
+
+        pointB = (d_lat, d_lon)
+
+        # calculate distance
+        distance = round(geodesic(pointA, pointB).km, 2)
+
+        distances.append(locations[parcourt] + ': ' + str(distance) + ' Km')
+
+        parcourt += 1
+
+
+
+    print("\n")
+    print("List of distances for all location and distances:\n")
+
+    m = folium.Map(width=1600, height=600, location=get_center_coordinates(x_lat, x_lon), zoom_start=14)
+
+    # Location marker
+    folium.Marker([x_lat, x_lon], tooltip='click here for more', popup=city['city'], 
+                    icon=folium.Icon(color='purple')).add_to(m)
+
+    m = m._repr_html_()
+
+    context = {'map': m, 'distances': distances}
+    return render(request, 'pharma/afficher_distance_pharmacie.html', context)
+

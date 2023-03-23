@@ -1,0 +1,41 @@
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<!DOCTYPE html>
+<header>
+
+</header>
+<body>
+<br>
+
+<div class="row">
+    <div class="container">
+        <div class="card bg-dark">
+            <div class="card card-body">
+
+                {% csrf_token %}
+
+                {% for distance in distances %}
+
+                {{ distance }}
+
+                <hr>
+                
+                {% endfor %}
+
+
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+{{ map|safe }}
+
+</body>
+</html>
+
+{% endblock content %}
