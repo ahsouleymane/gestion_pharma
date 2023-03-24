@@ -190,7 +190,7 @@ def localisation_et_calcule_de_distance(request):
     print("\n")
     print("List of distances for all location and distances:\n")
 
-    m = folium.Map(width=1600, height=600, location=get_center_coordinates(x_lat, x_lon), zoom_start=10)
+    m = folium.Map(width=1600, height=600, location=get_center_coordinates(x_lat, x_lon), zoom_start=12)
 
     # Location marker
     folium.Marker([x_lat, x_lon], tooltip='click here for more', popup=city['city'], 
@@ -201,8 +201,8 @@ def localisation_et_calcule_de_distance(request):
     for pharmacie in pharmacies:
         coordinates = (pharmacie.latitude, pharmacie.longitude)
         folium.Marker(coordinates, popup=pharmacie.designation,
-                      tooltip='Cliquer ici pour trouver le nom de la pharmacie', 
-                      icon=folium.Icon(color='green')).add_to(m)
+                      tooltip='Cliquer ici pour afficher le nom de la pharmacie', 
+                      icon=folium.Icon(color='red')).add_to(m)
 
     m = m._repr_html_()
 

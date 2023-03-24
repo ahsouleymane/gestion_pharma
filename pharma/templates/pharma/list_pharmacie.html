@@ -6,8 +6,8 @@
         <th>Adresse</th>
         <th>Téléphone</th>
         <th>Ville</th>
-        <th>Longitude</th>
         <th>Latitude</th>
+        <th>Longitude</th>
     </tr>
 
     {% for p in pharmacie %}
@@ -15,8 +15,8 @@
             <td>{{ p.designation }}</td>
             <td>{{ p.adresse }}</td>
             <td>{{ p.ville }}</td>
-            <td>{{ p.longitude }}</td>
             <td>{{ p.latitude }}</td>
+            <td>{{ p.longitude }}</td>
             <td><a href="{% url 'editer_pharmacie_form' p.id  %}">Editer</a></td>
             <td><a href="{% url 'supprimer_pharmacie_form' p.id  %}">Supprimer</a></td>
         </tr>
