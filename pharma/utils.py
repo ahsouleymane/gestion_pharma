@@ -8,13 +8,13 @@ def get_geo(ip):
     lat, lon = g.lat_lon(ip)
     return country, city, lat, lon
 
-def trouver_addresse_ip(request):
+""" def trouver_addresse_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
     else:
         ip = request.META.get('REMOTE_ADDR')
-    return ip
+    return ip """
 
 def get_center_coordinates(latA, lonA, latB=None, lonB=None):
     cord = (latA, lonA)

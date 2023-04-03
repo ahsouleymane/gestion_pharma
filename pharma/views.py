@@ -6,13 +6,12 @@ from pharma.forms import *
 from pharma.models import *
 from .utils import *
 
-from .resources import ProduitResource
 from tablib import Dataset
-from django.http import HttpResponse
 
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic # this fonction calculate distance
 
+import socket
 import folium
 import requests
 import json, urllib
@@ -115,13 +114,24 @@ def localisation_et_calcule_de_distance(request):
 
     # Initial values
     distance = None
-    destination = None
+    # destination = None
 
-    # Location coordinates using json
-    r = requests.get('https://get.geojs.io/')
+    # Get IP adress using json method1
+    # r = requests.get('https://get.geojs.io/')
     ip_request = requests.get('https://get.geojs.io/v1/ip.json')
     ip_add = ip_request.json()['ip']
-    #print(ip_add)
+    print(ip_add)
+
+    # Get ip data using json method2
+    ip = requests.get('https://api.ipify.org?format=json')
+    """ ip_data = json.loads(ip.text)
+    print(ip_data) """
+
+    # Get private IP adress using socket
+    """ hostName = socket.gethostname()
+    print(hostName)
+    ipAddr = socket.gethostbyname(hostName)
+    print(ipAddr) """
 
     url = 'https://get.geojs.io/v1/ip/geo/'+ip_add+'.json'
     geo_request = requests.get(url)
@@ -135,7 +145,7 @@ def localisation_et_calcule_de_distance(request):
 
     pointA = (x_lat, x_lon)
 
-    geolocator = Nominatim(user_agent='near')
+    geolocator = Nominatim(user_agent='pharma')
     country, city, lat, lon = get_geo(ip_add)
     location = geolocator.geocode(city)
 
@@ -188,7 +198,7 @@ def localisation_et_calcule_de_distance(request):
 
 
     print("\n")
-    print("List of distances for all location and distances:\n")
+    # print("List of distances for all location and distances:\n")
 
     m = folium.Map(width=1600, height=600, location=get_center_coordinates(x_lat, x_lon), zoom_start=12)
 
@@ -204,6 +214,7 @@ def localisation_et_calcule_de_distance(request):
                       tooltip='Cliquer ici pour afficher le nom de la pharmacie', 
                       icon=folium.Icon(color='red')).add_to(m)
 
+    # Get HTML representation of map object
     m = m._repr_html_()
 
     context = {'map': m, 'distances': distances}

@@ -44,3 +44,7 @@ class Stock(models.Model):
     date_ajout = models.DateTimeField(auto_now_add=True)
     date_modif = models.DateTimeField(auto_now=True)
 
+class Garde(models.Model):
+    tour = models.IntegerField(max_length=1, null=True)
+    debut_tour = models.DateField(auto_now_add=False, auto_now=False, blank=True, null=True)
+    fin_tour = models.DateField(auto_now_add=False, auto_now=False, blank=True, null=True)
