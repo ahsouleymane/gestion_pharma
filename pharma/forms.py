@@ -59,3 +59,19 @@ class StockForm(forms.ModelForm):
         'quantite_stock': 'Quantite Stock',
         'unite': 'Unité'
     }
+
+class GroupeForm(forms.ModelForm):
+    model = Groupe
+    fields = ['libelle']
+    labels = {
+        'libelle': 'Groupe'
+    }
+
+class TourGardeForm(forms.ModelForm):
+    model = TourGarde
+    fields = ['debut_tour', 'fin_tour', 'groupe']
+    labels = {
+        'debut_tour': 'Début Tour',
+        'fin_tour': 'Fin Tour',
+        'groupe': 'Groupe de garde',
+    }

@@ -20,5 +20,6 @@ from pharma import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('charger_produit_avec_fichier/', views.charger_produit_avec_fichier, name='charger_produit_avec_fichier'),
+    path('charger_liste_tour_de_garde/', views.charger_liste_tour_de_garde, name='charger_liste_tour_de_garde'),
     path('', include('pharma.urls'))
 ]

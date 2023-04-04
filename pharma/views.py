@@ -220,3 +220,25 @@ def localisation_et_calcule_de_distance(request):
     context = {'map': m, 'distances': distances}
     return render(request, 'pharma/afficher_distance_pharmacie.html', context)
 
+def charger_liste_tour_de_garde(request):
+    if request.method == 'POST':
+        #produit_resource = ProduitResource()
+        dataset = Dataset()
+        nouvelle_liste = request.FILES['monFichier']
+
+        if not nouvelle_liste.name.endswith('xlsx'):
+            messages.info(request, 'Mauvais format !!!')
+            return render(request, 'pharma/charger_liste_garde_form.html')
+        
+        imported_data = dataset.load(nouvelle_liste.read(), format='xlsx')
+        for data in imported_data:
+            value = TourGarde(
+                data[0],
+                data[1],
+                data[2],
+                data[3],
+            )
+            value.save()
+        return redirect('/list_tour_garde/')
+    return render(request, 'pharma/charger_liste_garde_form.html')
+
