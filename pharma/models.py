@@ -13,6 +13,9 @@ class Unite(models.Model):
 class Groupe(models.Model):
     libelle = models.CharField(max_length=40, null=True)
 
+    def __str__(self):
+        return self.libelle
+
 class Pharmacie(models.Model):
     utilisateur = models.OneToOneField(User, on_delete=models.CASCADE)
     designation = models.CharField(max_length=40, null=True)

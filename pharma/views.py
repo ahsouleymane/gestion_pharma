@@ -238,7 +238,7 @@ def charger_liste_tour_de_garde(request):
                 data[3],
             )
             value.save()
-        return redirect('/list_tour_garde/')
+        return redirect('/liste_tour_garde/')
     return render(request, 'pharma/charger_liste_garde_form.html')
 
 def liste_tour_garde(request):

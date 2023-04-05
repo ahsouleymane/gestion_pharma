@@ -16,24 +16,26 @@ class creerutilisateurForm(UserCreationForm):
         }
 
 class PaysVilleForm(forms.ModelForm):
-    model = PaysVille
-    fields = ['pays', 'ville']
-    labels = {
-        'pays': 'Pays',
-        'ville': 'Ville',
-    }
+    class Meta:
+        model = PaysVille
+        fields = ['pays', 'ville']
+        labels = {
+            'pays': 'Pays',
+            'ville': 'Ville',
+        }
 
 class UniteForm(forms.ModelForm):
-    model = Unite
-    fields = ['typeUnite']
-    labels = {
-        'typeUnite': 'Type Unité'
-    }
+    class Meta:
+        model = Unite
+        fields = ['typeUnite']
+        labels = {
+            'typeUnite': 'Type Unité'
+        }
 
 class PharmacieForm(forms.ModelForm):
     class Meta:
         model = Pharmacie
-        fields = ['designation', 'adresse', 'telephone', 'ville', 'latitude', 'longitude']
+        fields = ['designation', 'adresse', 'telephone', 'ville', 'latitude', 'longitude', 'groupe']
         labels = {
             'designation': 'Désignation',
             'adresse': 'Adresse',
@@ -41,37 +43,50 @@ class PharmacieForm(forms.ModelForm):
             'ville': 'Ville',
             'latitude': 'Latitude',
             'longitude': 'Longitude',
+            'groupe': 'Groupe de garde'
         }
 
+    def __init__(self, *args, **kwargs):
+            super(PharmacieForm,self).__init__(*args, **kwargs)
+            self.fields['groupe'].empty_label = "Choisir"
+
 class ProduitForm(forms.ModelForm):
-    model = Produit
-    fields = ['designation']
-    labels = {
-        'designation': 'Désignation'
-    }
+    class Meta:
+        model = Produit
+        fields = ['designation']
+        labels = {
+            'designation': 'Désignation'
+        }
 
 class StockForm(forms.ModelForm):
-    model = Stock
-    fields = ['pharmacie', 'produit', 'quantite_stock', 'unite']
-    labels = {
-        'pharmacie': 'Pharmacie',
-        'produit': 'Produit',
-        'quantite_stock': 'Quantite Stock',
-        'unite': 'Unité'
-    }
+    class Meta:
+        model = Stock
+        fields = ['pharmacie', 'produit', 'quantite_stock', 'unite']
+        labels = {
+            'pharmacie': 'Pharmacie',
+            'produit': 'Produit',
+            'quantite_stock': 'Quantite Stock',
+            'unite': 'Unité'
+        }
 
 class GroupeForm(forms.ModelForm):
-    model = Groupe
-    fields = ['libelle']
-    labels = {
-        'libelle': 'Groupe'
-    }
+    class Meta:
+        model = Groupe
+        fields = ['libelle']
+        labels = {
+            'libelle': 'Groupe'
+        }
 
 class TourGardeForm(forms.ModelForm):
-    model = TourGarde
-    fields = ['debut_tour', 'fin_tour', 'groupe']
-    labels = {
-        'debut_tour': 'Début Tour',
-        'fin_tour': 'Fin Tour',
-        'groupe': 'Groupe de garde',
-    }
+    class Meta:
+        model = TourGarde
+        fields = ['debut_tour', 'fin_tour', 'groupe']
+        labels = {
+            'debut_tour': 'Début Tour',
+            'fin_tour': 'Fin Tour',
+            'groupe': 'Groupe de garde',
+        }
+
+    def __init__(self, *args, **kwargs):
+            super(TourGardeForm,self).__init__(*args, **kwargs)
+            self.fields['groupe'].empty_label = "Choisir"
