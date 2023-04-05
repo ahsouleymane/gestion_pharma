@@ -222,7 +222,6 @@ def localisation_et_calcule_de_distance(request):
 
 def charger_liste_tour_de_garde(request):
     if request.method == 'POST':
-        #produit_resource = ProduitResource()
         dataset = Dataset()
         nouvelle_liste = request.FILES['monFichier']
 
@@ -241,4 +240,9 @@ def charger_liste_tour_de_garde(request):
             value.save()
         return redirect('/list_tour_garde/')
     return render(request, 'pharma/charger_liste_garde_form.html')
+
+def liste_tour_garde(request):
+    tour_garde = TourGarde.objects.all()
+    context = {'tour_garde': tour_garde}
+    return render(request, 'pharma/liste_tour_garde.html', context)
 

@@ -2,12 +2,14 @@
 
 <table class="table table-sm">
     <tr>
-        <th>Produits Pharmaceutiques</th>
+        <th>Listes Pharmacies de Gardes</th>
     </tr>
 
-    {% for p in produit %}
+    {% for t in tour_garde %}
         <tr>
-            <td>{{ p.designation }}</td>
+            <td>{{ t.debut_tour }}</td>
+            <td>{{ t.fin_tour }}</td>
+            <td>{{ t.groupe }}</td>
         </tr>
     {% endfor %}
 </table>
