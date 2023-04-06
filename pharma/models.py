@@ -64,4 +64,4 @@ class TourGarde(models.Model):
     groupe = models.ForeignKey(Groupe, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
-        return 'Du ' + self.debut_tour + ' au ' + self.fin_tour
+        return 'Du ' + str(self.debut_tour) + ' au ' + str(self.fin_tour)

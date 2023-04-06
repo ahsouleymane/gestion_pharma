@@ -246,3 +246,6 @@ def liste_tour_garde(request):
     context = {'tour_garde': tour_garde}
     return render(request, 'pharma/liste_tour_garde.html', context)
 
+def afficher_pharmacie_de_garde_en_fonction_des_dates(request):
+    as_debut_tour = TourGarde.objects.filter(debut_tour='debut_tour')
+
