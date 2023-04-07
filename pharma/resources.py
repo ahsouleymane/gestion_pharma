@@ -1,5 +1,5 @@
 from import_export import resources
-from .models import Produit, TourGarde
+from .models import Produit, TourGarde, Pharmacie
 
 class ProduitResource(resources.ModelResource):
     class meta:
@@ -8,3 +8,7 @@ class ProduitResource(resources.ModelResource):
 class TourGardeResource(resources.ModelResource):
     class meta:
         model = TourGarde
+
+class PharmacieResource(resources.ModelResource):
+    class meta:
+        model = Pharmacie

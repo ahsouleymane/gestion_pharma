@@ -4,9 +4,12 @@ from import_export.admin import ImportExportModelAdmin
 
 # Register your models here.
 
-admin.site.register(Pharmacie)
 admin.site.register(Stock)
 admin.site.register(Groupe)
+
+@admin.register(Pharmacie)
+class PharmacieAdmin(ImportExportModelAdmin):
+    list_display = ('utilisateur', 'designation', 'latitude', 'longitude', 'adresse', 'telephone', 'ville', 'date_ajout', 'date_modif', 'groupe')
 
 @admin.register(Produit)
 class ProduitAdmin(ImportExportModelAdmin):
