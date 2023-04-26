@@ -27,8 +27,6 @@ class Pharmacie(models.Model):
     date_ajout = models.DateTimeField(auto_now_add=True)
     date_modif = models.DateTimeField(auto_now=True)
 
-    groupe = models.ForeignKey(Groupe, null=True, on_delete=models.SET_NULL)
-
     def __str__(self):
         return self.utilisateur.username
     
@@ -62,6 +60,7 @@ class PharmacieGarde(models.Model):
     pharmacie = models.CharField(max_length=40, null=True)
     latitude = models.FloatField(max_length=40, null=True)
     longitude = models.FloatField(max_length=40, null=True)
+    groupe = models.ForeignKey(Groupe, blank=True, null=True, on_delete=models.SET_NULL)
     def __str__(self):
         return self.pharmacie
 

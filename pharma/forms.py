@@ -35,7 +35,7 @@ class UniteForm(forms.ModelForm):
 class PharmacieForm(forms.ModelForm):
     class Meta:
         model = Pharmacie
-        fields = ['designation', 'adresse', 'telephone', 'ville', 'latitude', 'longitude', 'groupe']
+        fields = ['designation', 'adresse', 'telephone', 'ville', 'latitude', 'longitude']
         labels = {
             'designation': 'Désignation',
             'adresse': 'Adresse',
@@ -43,12 +43,7 @@ class PharmacieForm(forms.ModelForm):
             'ville': 'Ville',
             'latitude': 'Latitude',
             'longitude': 'Longitude',
-            'groupe': 'Groupe de garde'
         }
-
-    def __init__(self, *args, **kwargs):
-            super(PharmacieForm,self).__init__(*args, **kwargs)
-            self.fields['groupe'].empty_label = "Choisir"
 
 class ProduitForm(forms.ModelForm):
     class Meta:
@@ -77,6 +72,21 @@ class GroupeForm(forms.ModelForm):
             'libelle': 'Groupe'
         }
 
+class PharmacieGardeForm(forms.ModelForm):
+    class Meta:
+        model = PharmacieGarde
+        fields = ['pharmacie', 'latitude', 'longitude', 'groupe']
+        labels = {
+            'pharmacie': 'Pharmacie',
+            'latitude': 'Latitude',
+            'longitude': 'Longitude',
+            'groupe': 'Groupe de garde'
+        }
+
+    def __init__(self, *args, **kwargs):
+            super(PharmacieGardeForm,self).__init__(*args, **kwargs)
+            self.fields['groupe'].empty_label = "Choisir"
+ 
 class TourGardeForm(forms.ModelForm):
     class Meta:
         model = TourGarde
