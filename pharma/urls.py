@@ -17,6 +17,8 @@ urlpatterns = [
     
     path('list_produit/', views.list_produit, name='list_produit'),
 
+    path('list_pharmacie_garde/', views.liste_pharmacie_garde, name='list_pharmacie_garde'),
+
     path('liste_tour_garde/', views.liste_tour_garde, name='liste_tour_garde'),
 
     path('ajouter_stock/', views.ajouter_stock, name='ajouter_stock'),

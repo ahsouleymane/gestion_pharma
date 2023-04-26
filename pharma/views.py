@@ -227,19 +227,24 @@ def charger_liste_pharmacie(request):
 
         if not nouvelle_liste.name.endswith('xlsx'):
             messages.info(request, 'Mauvais format !!!')
-            return render(request, 'pharma/charger_liste_pharmacie_form.html')
+            return render(request, 'pharma/charger_pharmacie_form.html')
         
         imported_data = dataset.load(nouvelle_liste.read(), format='xlsx')
         for data in imported_data:
-            value = Pharmacie(
+            value = PharmacieGarde(
                 data[0],
                 data[1],
                 data[2],
                 data[3],
             )
             value.save()
-        return redirect('/list_pharmacie/')
-    return render(request, 'pharma/charger_liste_pharmacie_form.html')
+        return redirect('/list_pharmacie_garde/')
+    return render(request, 'pharma/charger_pharmacie_form.html')
+
+def liste_pharmacie_garde(request):
+    pharmacie_garde = PharmacieGarde.objects.all()
+    context = {'pharmacie_garde': pharmacie_garde}
+    return render(request, 'pharma/list_pharmacie_garde.html', context)
 
 
 def charger_liste_tour_de_garde(request):

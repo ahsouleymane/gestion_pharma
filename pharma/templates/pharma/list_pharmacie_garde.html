@@ -1,0 +1,21 @@
+{% block content %}
+
+<h1>Les Pharmacies de Garde</h1>
+
+<table class="table table-sm">
+    <tr>
+        <th>Pharmacie</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+    </tr>
+
+    {% for p in pharmacie_garde %}
+        <tr>
+            <td>{{ p.pharmacie }}</td>
+            <td>{{ p.latitude }}</td>
+            <td>{{ p.longitude }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

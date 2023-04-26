@@ -57,6 +57,13 @@ class Stock(models.Model):
 
     def __str__(self):
         return self.pharmacie + ' à pour stock ' + self.quantite_stock
+        
+class PharmacieGarde(models.Model):
+    pharmacie = models.CharField(max_length=40, null=True)
+    latitude = models.FloatField(max_length=40, null=True)
+    longitude = models.FloatField(max_length=40, null=True)
+    def __str__(self):
+        return self.pharmacie
 
 class TourGarde(models.Model):
     debut_tour = models.DateField(auto_now_add=False, auto_now=False, blank=True, null=True)
