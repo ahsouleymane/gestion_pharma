@@ -45,18 +45,24 @@ crossorigin="anonymous"></script>
 integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" 
 crossorigin="anonymous"></script>
 
-<script>
-    $(document).ready(function(){
-        $(document).on("click", ".editable", function(){
-            var value = $(this).text();
-            var input = "<input type='text' class='input-data' value='"+value+"' class='form-control'>";
-            $(this).html(input);
-        })
-    });
-</script>
-
-
 </html>
 
 {% endblock %}
-    
+
+{% block custom_js %}
+<script>
+    $(document).ready(function(){
+        $(document).on("dblclick", ".editable", function(){
+            var value = $(this).text();
+            var input = "<input type='text' class='input-data' value='"+value+"' class='form-control'>";
+            $(this).html(input);
+            $(this).removeClass("editable")
+        });
+
+        $(document).on("blur", ".input-data", function(){
+            var value = $(this).val();
+        }):
+
+    });
+</script>
+{% endblock custom_js %}
