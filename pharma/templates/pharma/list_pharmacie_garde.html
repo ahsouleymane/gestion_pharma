@@ -85,7 +85,20 @@ crossorigin="anonymous"></script>
         });
 
         function sendToServer(id, data, type){
-
+            console.log(id);
+            console.log(value);
+            console.log(type);
+            $.ajax({
+                url:"http://127.0.0.1:8000/editer_pharmacie_garde_live",
+                type:"POST",
+                data:{id:id, type:type, value:value},
+            })
+            .done(function(response){
+                console.log(response);
+            })
+            .fail(function(){
+                console.log("Error Occured");
+            });
         }
 
     });

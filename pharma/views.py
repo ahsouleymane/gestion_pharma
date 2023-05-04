@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 from pharma.forms import *
 from pharma.models import *
@@ -240,6 +242,19 @@ def charger_liste_pharmacie(request):
             value.save()
         return redirect('/list_pharmacie_garde/')
     return render(request, 'pharma/charger_pharmacie_form.html')
+
+@csrf_exempt
+def editer_pharmacie_garde_live(request):
+    id = request.POST.get('id', '')
+    type = request.POST.get('type', '')
+    value = request.POST.get('value', '')
+    pharmacie_garde = PharmacieGarde.objects.get(id=id)
+
+    if type == "groupe":
+        pharmacie_garde.groupe = value
+
+    pharmacie_garde.save()
+    return JsonResponse({"Reussi":"Edité"})
 
 def liste_pharmacie_garde(request):
     pharmacie_garde = PharmacieGarde.objects.all()
