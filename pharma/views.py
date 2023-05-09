@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+from datetime import date
 
 from pharma.forms import *
 from pharma.models import *
@@ -152,7 +153,7 @@ def localisation_et_calcule_de_distance(request):
     location = geolocator.geocode(city)
 
     
-    number_of_location = Pharmacie.objects.all().count()
+    number_of_location = PharmacieGarde.objects.all().count()
     #print('Number of location: ', number_of_location)
 
     locations = []
@@ -160,7 +161,7 @@ def localisation_et_calcule_de_distance(request):
     parcourt = 0
     while parcourt < number_of_location:
 
-        locations = Pharmacie.objects.values_list('designation', flat=True)
+        locations = PharmacieGarde.objects.values_list('pharmacie', flat=True)
         parcourt += 1
 
     #print(locations)
@@ -172,8 +173,8 @@ def localisation_et_calcule_de_distance(request):
     parcourt = 0
     while parcourt < number_of_location:
 
-        latitudes = Pharmacie.objects.values_list('latitude', flat=True)
-        longitudes = Pharmacie.objects.values_list('longitude', flat=True)
+        latitudes = PharmacieGarde.objects.values_list('latitude', flat=True)
+        longitudes = PharmacieGarde.objects.values_list('longitude', flat=True)
 
         parcourt += 1
 
@@ -202,19 +203,19 @@ def localisation_et_calcule_de_distance(request):
     print("\n")
     # print("List of distances for all location and distances:\n")
 
-    m = folium.Map(width=1600, height=600, location=get_center_coordinates(x_lat, x_lon), zoom_start=12)
+    m = folium.Map(width=1600, height=600, location=get_center_coordinates(x_lat, x_lon), zoom_start=14)
 
     # Location marker
     folium.Marker([x_lat, x_lon], tooltip='click here for more', popup=city['city'], 
-                    icon=folium.Icon(color='purple')).add_to(m)
+                    icon=folium.Icon(color='red')).add_to(m)
     
-    pharmacies = Pharmacie.objects.all()
+    pharmacies = PharmacieGarde.objects.all()
 
     for pharmacie in pharmacies:
         coordinates = (pharmacie.latitude, pharmacie.longitude)
-        folium.Marker(coordinates, popup=pharmacie.designation,
+        folium.Marker(coordinates, popup=pharmacie.pharmacie,
                       tooltip='Cliquer ici pour afficher le nom de la pharmacie', 
-                      icon=folium.Icon(color='red')).add_to(m)
+                      icon=folium.Icon(color='purple')).add_to(m)
 
     # Get HTML representation of map object
     m = m._repr_html_()
@@ -238,6 +239,7 @@ def charger_liste_pharmacie(request):
                 data[1],
                 data[2],
                 data[3],
+                data[4],
             )
             value.save()
         return redirect('/list_pharmacie_garde/')
@@ -288,6 +290,21 @@ def liste_tour_garde(request):
     context = {'tour_garde': tour_garde}
     return render(request, 'pharma/liste_tour_garde.html', context)
 
-def afficher_pharmacie_de_garde_en_fonction_des_dates(request):
-    as_debut_tour = TourGarde.objects.filter(debut_tour='debut_tour')
+def liste_pharmacie_garde(request):
+    nombre_tour = TourGarde.objects.all().count()
 
+    parcourt = 0
+    while parcourt < nombre_tour:
+        debut_tour = TourGarde.objects.get(debut_tour='debut_tour')
+        fin_tour = TourGarde.objects.get(fin_tour='debut_tour')
+        groupe = TourGarde.objects.get(groupe='groupe')
+
+        debut_tour = date.strptime(debut_tour, "%Y-%m-%d")
+
+        if date.now() >= debut_tour and date.now() <= fin_tour:
+            pharmacie = PharmacieGarde.objects.values_list('pharmacie', flat=True).filter(groupe=groupe)
+
+        parcourt += 1
+
+    context = {'pharmacie_garde': pharmacie}
+    return render(request, 'pharma/liste_pharmacie_garde_today.html', context)

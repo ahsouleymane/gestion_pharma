@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from gestion_pharma import settings
 
 # Create your models here.
 
@@ -58,15 +59,15 @@ class Stock(models.Model):
         
 class PharmacieGarde(models.Model):
     pharmacie = models.CharField(max_length=40, null=True)
-    latitude = models.FloatField(max_length=40, null=True)
-    longitude = models.FloatField(max_length=40, null=True)
+    latitude = models.FloatField(max_length=40, default=0)
+    longitude = models.FloatField(max_length=40, default=0)
     groupe = models.ForeignKey(Groupe, blank=True, null=True, on_delete=models.SET_NULL)
     def __str__(self):
         return self.pharmacie
 
 class TourGarde(models.Model):
-    debut_tour = models.DateField(auto_now_add=False, auto_now=False, blank=True, null=True)
-    fin_tour = models.DateField(auto_now_add=False, auto_now=False, blank=True, null=True)
+    debut_tour = models.DateField(auto_now_add=False, auto_now=False, null=True)
+    fin_tour = models.DateField(auto_now_add=False, auto_now=False, null=True)
     groupe = models.ForeignKey(Groupe, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
