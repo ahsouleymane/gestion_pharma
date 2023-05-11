@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from datetime import date
+from datetime import datetime
 
 from pharma.forms import *
 from pharma.models import *
@@ -294,17 +294,28 @@ def liste_pharmacie_garde(request):
     nombre_tour = TourGarde.objects.all().count()
 
     parcourt = 0
-    while parcourt < nombre_tour:
-        debut_tour = TourGarde.objects.get(debut_tour='debut_tour')
-        fin_tour = TourGarde.objects.get(fin_tour='debut_tour')
-        groupe = TourGarde.objects.get(groupe='groupe')
+    while parcourt <= nombre_tour:
+        debut_tour = TourGarde.objects.values_list('debut_tour', flat=True)
+        fin_tour = TourGarde.objects.values_list('fin_tour', flat=True)
+        groupe = TourGarde.objects.values_list('groupe', flat=True)
 
-        debut_tour = date.strptime(debut_tour, "%Y-%m-%d")
+        as_debut_tour = str(debut_tour[0])
+        as_fin_tour = str(fin_tour[0])
+        as_groupe = str(groupe[0])
 
-        if date.now() >= debut_tour and date.now() <= fin_tour:
-            pharmacie = PharmacieGarde.objects.values_list('pharmacie', flat=True).filter(groupe=groupe)
+
+        print(debut_tour)
+        print(fin_tour)
+
+        debut_tour = datetime.strptime(as_debut_tour, "%Y-%m-%d")
+        fin_tour = datetime.strptime(as_fin_tour, "%Y-%m-%d")
+
+        if datetime.now() >= debut_tour and datetime.now() <= fin_tour:
+            pharmacie = PharmacieGarde.objects.values('pharmacie').filter(groupe=as_groupe).values_list('pharmacie', flat=True)
+
+        pharmacie_garde = pharmacie
 
         parcourt += 1
 
-    context = {'pharmacie_garde': pharmacie}
+    context = {'pharmacie': pharmacie_garde}
     return render(request, 'pharma/liste_pharmacie_garde_today.html', context)
