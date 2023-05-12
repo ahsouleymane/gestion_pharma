@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from datetime import datetime
+from datetime import date
 
 from pharma.forms import *
 from pharma.models import *
@@ -18,6 +18,7 @@ import socket
 import folium
 import requests
 import json, urllib
+import datetime
 
 # Create your views here.
 
@@ -291,31 +292,41 @@ def liste_tour_garde(request):
     return render(request, 'pharma/liste_tour_garde.html', context)
 
 def liste_pharmacie_garde(request):
+
+    debut_tour_tuple = TourGarde.objects.values_list('debut_tour', flat=True)
+    fin_tour_tuple = TourGarde.objects.values_list('fin_tour', flat=True)
+    groupe_tuple = TourGarde.objects.values_list('groupe', flat=True)
+
+    # Convert QuerySet to a liste
+    debut_tour_list = [debut_tour for debut_tour in debut_tour_tuple]
+    fin_tour_list = [fin_tour for fin_tour in fin_tour_tuple]
+    groupe_list = [groupe for groupe in groupe_tuple]
+    
+    print(debut_tour_list)
+    print(fin_tour_list)
+    print(groupe_list)
+
     nombre_tour = TourGarde.objects.all().count()
 
     parcourt = 0
-    while parcourt <= nombre_tour:
-        debut_tour = TourGarde.objects.values_list('debut_tour', flat=True)
-        fin_tour = TourGarde.objects.values_list('fin_tour', flat=True)
-        groupe = TourGarde.objects.values_list('groupe', flat=True)
+    while parcourt < nombre_tour:
+        un_debut_tour = debut_tour_list[parcourt]
+        un_fin_tour = fin_tour_list[parcourt]
+        un_groupe = groupe_list[parcourt]
 
-        as_debut_tour = str(debut_tour[0])
-        as_fin_tour = str(fin_tour[0])
-        as_groupe = str(groupe[0])
+        print(un_debut_tour)
+        print(un_fin_tour)
+        print(un_groupe)
 
-
-        print(debut_tour)
-        print(fin_tour)
-
-        debut_tour = datetime.strptime(as_debut_tour, "%Y-%m-%d")
-        fin_tour = datetime.strptime(as_fin_tour, "%Y-%m-%d")
-
-        if datetime.now() >= debut_tour and datetime.now() <= fin_tour:
-            pharmacie = PharmacieGarde.objects.values('pharmacie').filter(groupe=as_groupe).values_list('pharmacie', flat=True)
-
-        pharmacie_garde = pharmacie
-
+        pharmacie = []
+        if date.today() >= un_debut_tour and date.today() <= un_fin_tour:
+            pharmacie = PharmacieGarde.objects.values('pharmacie').filter(groupe=un_groupe).values_list('pharmacie', flat=True)
         parcourt += 1
 
-    context = {'pharmacie': pharmacie_garde}
+        print(un_debut_tour)
+        print(un_fin_tour)
+        print(un_groupe)
+
+
+    context = {'pharmacie': pharmacie}
     return render(request, 'pharma/liste_pharmacie_garde_today.html', context)
