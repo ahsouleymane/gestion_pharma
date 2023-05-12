@@ -302,9 +302,9 @@ def liste_pharmacie_garde(request):
     fin_tour_list = [fin_tour for fin_tour in fin_tour_tuple]
     groupe_list = [groupe for groupe in groupe_tuple]
     
-    print(debut_tour_list)
-    print(fin_tour_list)
-    print(groupe_list)
+    # print(debut_tour_list)
+    # print(fin_tour_list)
+    # print(groupe_list)
 
     nombre_tour = TourGarde.objects.all().count()
 
@@ -314,9 +314,9 @@ def liste_pharmacie_garde(request):
         un_fin_tour = fin_tour_list[parcourt]
         un_groupe = groupe_list[parcourt]
 
-        print(un_debut_tour)
-        print(un_fin_tour)
-        print(un_groupe)
+        # print(un_debut_tour)
+        # print(un_fin_tour)
+        # print(un_groupe)
 
         pharmacie = []
         if date.today() >= un_debut_tour and date.today() <= un_fin_tour:
