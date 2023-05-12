@@ -293,40 +293,45 @@ def liste_tour_garde(request):
 
 def liste_pharmacie_garde(request):
 
-    debut_tour_tuple = TourGarde.objects.values_list('debut_tour', flat=True)
-    fin_tour_tuple = TourGarde.objects.values_list('fin_tour', flat=True)
-    groupe_tuple = TourGarde.objects.values_list('groupe', flat=True)
+    tour = TourGarde.objects.values_list()
 
-    # Convert QuerySet to a liste
-    debut_tour_list = [debut_tour for debut_tour in debut_tour_tuple]
-    fin_tour_list = [fin_tour for fin_tour in fin_tour_tuple]
-    groupe_list = [groupe for groupe in groupe_tuple]
-    
-    # print(debut_tour_list)
-    # print(fin_tour_list)
-    # print(groupe_list)
+    # Convertir le QuerySet en List de tuple
+    liste_de_tuple = [t for t in tour]
+    print(liste_de_tuple)
 
+    # Compter le nombre de ligne dans la table
     nombre_tour = TourGarde.objects.all().count()
 
     parcourt = 0
     while parcourt < nombre_tour:
-        un_debut_tour = debut_tour_list[parcourt]
-        un_fin_tour = fin_tour_list[parcourt]
-        un_groupe = groupe_list[parcourt]
 
-        # print(un_debut_tour)
-        # print(un_fin_tour)
-        # print(un_groupe)
+        # Parcourir la liste tuple par tuple
+        un_tuple = liste_de_tuple[parcourt]
+       
+        print(un_tuple)
 
-        pharmacie = []
-        if date.today() >= un_debut_tour and date.today() <= un_fin_tour:
-            pharmacie = PharmacieGarde.objects.values('pharmacie').filter(groupe=un_groupe).values_list('pharmacie', flat=True)
+        # Convertir le tuple en List
+        une_liste = [d for d in un_tuple]
+        print(une_liste)
+
+        # Récuperer les elements de la liste à travers leur indice
+        debut_tour = une_liste[1]
+        print(debut_tour)
+
+        fin_tour = une_liste[2]
+        print(fin_tour)
+
+        groupe = une_liste[3]
+        print(groupe)
+       
+
+        pharmacie_garde = []
+        if date.today() >= debut_tour and date.today() <= fin_tour:
+            pharmacie = PharmacieGarde.objects.filter(groupe=groupe).values_list('pharmacie', flat=True)
+            pharmacie_list  = [p for p in pharmacie]
+            print(pharmacie_list)
+            pharmacie_garde.append(pharmacie)
         parcourt += 1
 
-        print(un_debut_tour)
-        print(un_fin_tour)
-        print(un_groupe)
-
-
-    context = {'pharmacie': pharmacie}
+    context = {'pharmacie': pharmacie_list}
     return render(request, 'pharma/liste_pharmacie_garde_today.html', context)

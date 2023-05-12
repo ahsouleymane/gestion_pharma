@@ -10,7 +10,7 @@ admin.site.register(Groupe)
 
 @admin.register(PharmacieGarde)
 class PharmacieGardeAdmin(ImportExportModelAdmin):
-    list_display = ('pharmacie', 'latitude', 'longitude')
+    list_display = ('pharmacie', 'latitude', 'longitude', 'groupe')
 
 @admin.register(Produit)
 class ProduitAdmin(ImportExportModelAdmin):

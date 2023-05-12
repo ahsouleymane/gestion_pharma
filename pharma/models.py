@@ -61,7 +61,7 @@ class PharmacieGarde(models.Model):
     pharmacie = models.CharField(max_length=40, null=True)
     latitude = models.FloatField(max_length=40, default=0)
     longitude = models.FloatField(max_length=40, default=0)
-    groupe = models.ForeignKey(Groupe, blank=True, null=True, on_delete=models.SET_NULL)
+    groupe = models.ForeignKey(Groupe, null=True, on_delete=models.SET_NULL)
     def __str__(self):
         return self.pharmacie
 
