@@ -325,13 +325,16 @@ def liste_pharmacie_garde(request):
         print(groupe)
        
 
-        pharmacie_garde = []
         if date.today() >= debut_tour and date.today() <= fin_tour:
+            as_debut_tour = debut_tour
+            as_fin_tour = fin_tour
             pharmacie = PharmacieGarde.objects.filter(groupe=groupe).values_list('pharmacie', flat=True)
             pharmacie_list  = [p for p in pharmacie]
             print(pharmacie_list)
-            pharmacie_garde.append(pharmacie)
+            
         parcourt += 1
 
-    context = {'pharmacie': pharmacie_list}
+    context = {'date_debut_tour': as_debut_tour, 
+               'date_fin_tour': as_fin_tour, 
+                'pharmacie': pharmacie_list}
     return render(request, 'pharma/liste_pharmacie_garde_today.html', context)
