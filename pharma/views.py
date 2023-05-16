@@ -395,7 +395,7 @@ def liste_pharmacie_garde(request):
         groupe = une_liste[3]
         print(groupe)
        
-        if date.today() >= debut_tour and date.today() <= fin_tour:
+        if date.today() >= debut_tour and date.today() < fin_tour:
             as_debut_tour = debut_tour
             as_fin_tour = fin_tour
             pharmacie = PharmacieGarde.objects.filter(groupe=groupe).values_list('pharmacie', flat=True)
