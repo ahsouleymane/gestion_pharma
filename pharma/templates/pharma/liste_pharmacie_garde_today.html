@@ -14,17 +14,32 @@
 
 <br>
 
-<div><h2>Les pharmacies de garde du:</h2></div>&nbsp;
+<div><h2>Les pharmacies de garde de Niamey du:</h2></div>&nbsp;
 <div><h1>{{ date_debut_tour }}</h1></div>&nbsp;
 <div><h2>au</h2></div>&nbsp;
 <div><h1>{{ date_fin_tour }}</h1></div>&nbsp;
 
 <br>
 
-{% for p in pharmacie %}
+{% for p in pharmacie_garde %}
 
 <div><h3>{{ p }} || </h3></div>&nbsp;
 
 {% endfor %}
+
+<br>
+
+<div><h2>Les pharmacies de garde de la commune 5:</h2></div>&nbsp;
+
+
+<br>
+
+{% for p in pharmacie_garde_com5 %}
+
+<div><h3>{{ p }} || </h3></div>&nbsp;
+
+{% endfor %}
+
+<div><h3> POPULAIRE HAROBANDA || </h3></div>&nbsp;
 
 {% endblock content %}

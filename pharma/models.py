@@ -72,3 +72,11 @@ class TourGarde(models.Model):
 
     def __str__(self):
         return 'Du ' + str(self.debut_tour) + ' au ' + str(self.fin_tour)
+    
+class TourGardeCom5(models.Model):
+    debut_tour = models.DateField(auto_now_add=False, auto_now=False, null=True)
+    fin_tour = models.DateField(auto_now_add=False, auto_now=False, null=True)
+    groupe = models.ForeignKey(Groupe, null=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return 'Du ' + str(self.debut_tour) + ' au ' + str(self.fin_tour)

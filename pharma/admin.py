@@ -19,3 +19,8 @@ class ProduitAdmin(ImportExportModelAdmin):
 @admin.register(TourGarde)
 class TourGardeAdmin(ImportExportModelAdmin):
     list_display = ('debut_tour', 'fin_tour', 'groupe')
+
+@admin.register(TourGardeCom5)
+class TourGardeCom5Admin(ImportExportModelAdmin):
+    list_display = ('debut_tour', 'fin_tour', 'groupe')
+

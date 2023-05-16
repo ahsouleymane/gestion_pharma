@@ -291,7 +291,35 @@ def liste_tour_garde(request):
     context = {'tour_garde': tour_garde}
     return render(request, 'pharma/liste_tour_garde.html', context)
 
+def charger_liste_tour_de_garde_com5(request):
+    if request.method == 'POST':
+        dataset = Dataset()
+        nouvelle_liste = request.FILES['monFichier']
+
+        if not nouvelle_liste.name.endswith('xlsx'):
+            messages.info(request, 'Mauvais format !!!')
+            return render(request, 'pharma/charger_liste_garde_com5_form.html')
+        
+        imported_data = dataset.load(nouvelle_liste.read(), format='xlsx')
+        for data in imported_data:
+            value = TourGardeCom5(
+                data[0],
+                data[1],
+                data[2],
+                data[3],
+            )
+            value.save()
+        return redirect('/liste_tour_garde_com5/')
+    return render(request, 'pharma/charger_liste_garde_com5_form.html')
+
+def liste_tour_garde_com5(request):
+    tour_garde = TourGardeCom5.objects.all()
+    context = {'tour_garde': tour_garde}
+    return render(request, 'pharma/liste_tour_garde_com5.html', context)
+
 def liste_pharmacie_garde(request):
+
+    ########## Alternance Garde ##########
 
     tour = TourGarde.objects.values_list()
 
@@ -324,7 +352,6 @@ def liste_pharmacie_garde(request):
         groupe = une_liste[3]
         print(groupe)
        
-
         if date.today() >= debut_tour and date.today() <= fin_tour:
             as_debut_tour = debut_tour
             as_fin_tour = fin_tour
@@ -334,7 +361,52 @@ def liste_pharmacie_garde(request):
             
         parcourt += 1
 
+
+    ########## Alternance Garde Commune 5 ##########
+
+    tour_com5 = TourGardeCom5.objects.values_list()
+
+    # Convertir le QuerySet en List de tuple
+    liste_de_tuple = [t for t in tour_com5]
+    print(liste_de_tuple)
+
+    # Compter le nombre de ligne dans la table
+    nombre_tour = TourGarde.objects.all().count()
+
+    parcourt = 0
+    while parcourt < nombre_tour:
+
+        # Parcourir la liste tuple par tuple
+        un_tuple = liste_de_tuple[parcourt]
+       
+        print(un_tuple)
+
+        # Convertir le tuple en List
+        une_liste = [d for d in un_tuple]
+        print(une_liste)
+
+        # Récuperer les elements de la liste à travers leur indice
+        debut_tour = une_liste[1]
+        print(debut_tour)
+
+        fin_tour = une_liste[2]
+        print(fin_tour)
+
+        groupe = une_liste[3]
+        print(groupe)
+       
+        if date.today() >= debut_tour and date.today() <= fin_tour:
+            as_debut_tour = debut_tour
+            as_fin_tour = fin_tour
+            pharmacie = PharmacieGarde.objects.filter(groupe=groupe).values_list('pharmacie', flat=True)
+            pharmacie_list_com5  = [p for p in pharmacie]
+            print(pharmacie_list)
+            
+        parcourt += 1
+
+
     context = {'date_debut_tour': as_debut_tour, 
                'date_fin_tour': as_fin_tour, 
-                'pharmacie': pharmacie_list}
+                'pharmacie_garde': pharmacie_list,
+                'pharmacie_garde_com5': pharmacie_list_com5}
     return render(request, 'pharma/liste_pharmacie_garde_today.html', context)
