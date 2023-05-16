@@ -373,11 +373,11 @@ def liste_pharmacie_garde(request):
     # Compter le nombre de ligne dans la table
     nombre_tour = TourGarde.objects.all().count()
 
-    parcourt = 0
-    while parcourt < nombre_tour:
+    parcourt1 = 0
+    while parcourt1 < nombre_tour:
 
         # Parcourir la liste tuple par tuple
-        un_tuple = liste_de_tuple[parcourt]
+        un_tuple = liste_de_tuple[parcourt1]
        
         print(un_tuple)
 
@@ -402,7 +402,7 @@ def liste_pharmacie_garde(request):
             pharmacie_list_com5  = [p for p in pharmacie]
             print(pharmacie_list)
             
-        parcourt += 1
+        parcourt1 += 1
 
 
     context = {'date_debut_tour': as_debut_tour, 
