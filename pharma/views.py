@@ -77,6 +77,7 @@ def supprimer_pharmacie(request, pk):
     context = {'pharmacie': pharmacie}
     return render(request, 'pharma/supprimer_pharmacie_form.html', context)
 
+
 def charger_produit_avec_fichier(request):
     if request.method == 'POST':
         #produit_resource = ProduitResource()
@@ -325,7 +326,7 @@ def liste_pharmacie_garde(request):
 
     # Convertir le QuerySet en List de tuple
     liste_de_tuple = [t for t in tour]
-    print(liste_de_tuple)
+    #print(liste_de_tuple)
 
     # Compter le nombre de ligne dans la table
     nombre_tour = TourGarde.objects.all().count()
@@ -336,28 +337,28 @@ def liste_pharmacie_garde(request):
         # Parcourir la liste tuple par tuple
         un_tuple = liste_de_tuple[parcourt]
        
-        print(un_tuple)
+        #print(un_tuple)
 
         # Convertir le tuple en List
         une_liste = [d for d in un_tuple]
-        print(une_liste)
+        #print(une_liste)
 
         # Récuperer les elements de la liste à travers leur indice
         debut_tour = une_liste[1]
-        print(debut_tour)
+        #print(debut_tour)
 
         fin_tour = une_liste[2]
-        print(fin_tour)
+        #print(fin_tour)
 
         groupe = une_liste[3]
-        print(groupe)
+        #print(groupe)
        
         if date.today() >= debut_tour and date.today() <= fin_tour:
             as_debut_tour = debut_tour
             as_fin_tour = fin_tour
             pharmacie = PharmacieGarde.objects.filter(groupe=groupe).values_list('pharmacie', flat=True)
             pharmacie_list  = [p for p in pharmacie]
-            print(pharmacie_list)
+            #print(pharmacie_list)
             
         parcourt += 1
 
@@ -368,7 +369,7 @@ def liste_pharmacie_garde(request):
 
     # Convertir le QuerySet en List de tuple
     liste_de_tuple = [t for t in tour_com5]
-    print(liste_de_tuple)
+    #print(liste_de_tuple)
 
     # Compter le nombre de ligne dans la table
     nombre_tour = TourGarde.objects.all().count()
@@ -379,28 +380,28 @@ def liste_pharmacie_garde(request):
         # Parcourir la liste tuple par tuple
         un_tuple = liste_de_tuple[parcourt1]
        
-        print(un_tuple)
+        #print(un_tuple)
 
         # Convertir le tuple en List
         une_liste = [d for d in un_tuple]
-        print(une_liste)
+        #print(une_liste)
 
         # Récuperer les elements de la liste à travers leur indice
         debut_tour = une_liste[1]
-        print(debut_tour)
+        #print(debut_tour)
 
         fin_tour = une_liste[2]
-        print(fin_tour)
+        #print(fin_tour)
 
         groupe = une_liste[3]
-        print(groupe)
+        #print(groupe)
        
         if date.today() >= debut_tour and date.today() < fin_tour:
             as_debut_tour = debut_tour
             as_fin_tour = fin_tour
             pharmacie = PharmacieGarde.objects.filter(groupe=groupe).values_list('pharmacie', flat=True)
             pharmacie_list_com5  = [p for p in pharmacie]
-            print(pharmacie_list)
+            #print(pharmacie_list)
             
         parcourt1 += 1
 
@@ -410,3 +411,26 @@ def liste_pharmacie_garde(request):
                 'pharmacie_garde': pharmacie_list,
                 'pharmacie_garde_com5': pharmacie_list_com5}
     return render(request, 'pharma/liste_pharmacie_garde_today.html', context)
+
+def initialiser_stock(request):
+    pass
+
+def mettre_a_jour_stock(request, pk):
+    stock = Stock.objects.get(id=pk)
+    liste_stock = [s for s in stock]
+    qte_stock = liste_stock[3]
+    print(qte_stock)
+
+    if request.method == 'POST':
+        nouveau_stock = request.POST.get('quantite_stock')
+        print(nouveau_stock)
+
+    qte_stock += nouveau_stock
+    
+    context = {"qte_stock": qte_stock}
+    return render(request, 'pharma/editer_stock_form.html', context)
+
+def list_stock(request):
+    stock = Stock.objects.all()
+    context = {"stock": stock}
+    return render(request, 'pharma/list_stock.html', context)

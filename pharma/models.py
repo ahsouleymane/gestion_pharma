@@ -47,10 +47,10 @@ class Produit(models.Model):
         return self.designation
 
 class Stock(models.Model):
-    pharmacie = models.ForeignKey(Pharmacie, null=True, on_delete=models.SET_NULL)
-    produit = models.ForeignKey(Produit, null=True, on_delete=models.SET_NULL)
-    quantite_stock = models.IntegerField(null=True)
-    unite = models.CharField(max_length=60, null=True)
+    pharmacie = models.ForeignKey(Pharmacie, on_delete=models.SET_NULL)
+    produit = models.ForeignKey(Produit, on_delete=models.SET_NULL)
+    quantite_stock = models.IntegerField(null=True, default=0)
+    unite = models.ForeignKey(Unite, null=True, on_delete=models.SET_NULL)
     date_ajout = models.DateTimeField(auto_now_add=True)
     date_modif = models.DateTimeField(auto_now=True)
 
