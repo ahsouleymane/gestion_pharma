@@ -38,6 +38,15 @@ class Pharmacie(models.Model):
             self.utilisateur = User.objects.last()
         super().save(*args, **kwargs)
 
+class PharmacieGarde(models.Model):
+    pharmacie = models.CharField(max_length=40, null=True)
+    latitude = models.FloatField(max_length=40, default=0)
+    longitude = models.FloatField(max_length=40, default=0)
+    groupe = models.ForeignKey(Groupe, null=True, on_delete=models.SET_NULL)
+    
+    def __str__(self):
+        return self.pharmacie
+
 class Produit(models.Model):
     designation = models.CharField(max_length=40, null=True)
     date_ajout = models.DateTimeField(auto_now_add=True)
@@ -47,8 +56,8 @@ class Produit(models.Model):
         return self.designation
 
 class Stock(models.Model):
-    pharmacie = models.ForeignKey(Pharmacie, on_delete=models.SET_NULL)
-    produit = models.ForeignKey(Produit, on_delete=models.SET_NULL)
+    pharmacie = models.ForeignKey(PharmacieGarde, null=True, on_delete=models.SET_NULL)
+    produit = models.ForeignKey(Produit, null=True, on_delete=models.SET_NULL)
     quantite_stock = models.IntegerField(null=True, default=0)
     unite = models.ForeignKey(Unite, null=True, on_delete=models.SET_NULL)
     date_ajout = models.DateTimeField(auto_now_add=True)
@@ -56,14 +65,6 @@ class Stock(models.Model):
 
     def __str__(self):
         return self.pharmacie + ' à pour stock ' + self.quantite_stock
-        
-class PharmacieGarde(models.Model):
-    pharmacie = models.CharField(max_length=40, null=True)
-    latitude = models.FloatField(max_length=40, default=0)
-    longitude = models.FloatField(max_length=40, default=0)
-    groupe = models.ForeignKey(Groupe, null=True, on_delete=models.SET_NULL)
-    def __str__(self):
-        return self.pharmacie
 
 class TourGarde(models.Model):
     debut_tour = models.DateField(auto_now_add=False, auto_now=False, null=True)

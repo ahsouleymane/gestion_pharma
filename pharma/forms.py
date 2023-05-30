@@ -64,6 +64,12 @@ class StockForm(forms.ModelForm):
             'unite': 'Unité'
         }
 
+    def __init__(self, *args, **kwargs):
+            super(StockForm,self).__init__(*args, **kwargs)
+            self.fields['pharmacie'].empty_label = "Choisir"
+            self.fields['produit'].empty_label = "Choisir"
+            self.fields['unite'].empty_label = "Choisir"
+
 class GroupeForm(forms.ModelForm):
     class Meta:
         model = Groupe

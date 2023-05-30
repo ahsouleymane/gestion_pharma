@@ -413,6 +413,7 @@ def liste_pharmacie_garde(request):
     return render(request, 'pharma/liste_pharmacie_garde_today.html', context)
 
 def initialiser_stock(request):
+    
     pass
 
 def mettre_a_jour_stock(request, pk):
@@ -422,7 +423,9 @@ def mettre_a_jour_stock(request, pk):
     print(qte_stock)
 
     if request.method == 'POST':
-        nouveau_stock = request.POST.get('quantite_stock')
+        form_stock = StockForm(request.POST)
+        liste_form_stock = [s for s in form_stock]
+        nouveau_stock = liste_form_stock[3]
         print(nouveau_stock)
 
     qte_stock += nouveau_stock

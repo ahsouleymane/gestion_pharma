@@ -35,9 +35,9 @@ urlpatterns = [
      path('rechercher_produit_en_fonction_de_pharmacie_et_stock/<int:pk>/', 
          views.rechercher_produit_en_fonction_de_pharmacie_et_stock, name='rechercher_produit_en_fonction_de_pharmacie_et_stock'),
 
-    path('localisation_et_calcule_de_distance/', views.localisation_et_calcule_de_distance,
+     path('localisation_et_calcule_de_distance/', views.localisation_et_calcule_de_distance,
          name='localisation_et_calcule_de_distance'),
 
-     path('ajouter_stock/', views.mettre_a_jour_stock, name='ajouter_stock'),
+     path('mettre_a_jour_stock/', views.mettre_a_jour_stock, name='mettre_a_jour_stock'),
 
 ]
