@@ -1,0 +1,15 @@
+{% block content %}
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    <h2>Choisir une pharmacie</h2>
+
+    {{ form.pharmacie }}
+
+    <button type="submit">Ajouter</button>
+
+</form>
+
+{% endblock %}
