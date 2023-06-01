@@ -7,6 +7,8 @@ from import_export.admin import ImportExportModelAdmin
 admin.site.register(Pharmacie)
 admin.site.register(Stock)
 admin.site.register(Groupe)
+admin.site.register(Unite)
+admin.site.register(PaysVille)
 
 @admin.register(PharmacieGarde)
 class PharmacieGardeAdmin(ImportExportModelAdmin):

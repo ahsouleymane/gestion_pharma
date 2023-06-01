@@ -1,0 +1,20 @@
+<table class="table table-sm">
+    <tr>
+        <th>Pharmacie</th>
+        <th>Produit</th>
+        <th>Quantité Stock</th>
+        <th>Unité</th>
+    </tr>
+
+    {% for s in stock %}
+        <tr>
+            <td>{{ s.pharmacie }}</td>
+            <td>{{ s.produit }}</td>
+            <td>{{ s.quantite_stock }}</td>
+            <td>{{ s.unite }}</td>
+            <td><a href="{% url 'mettre_a_jour_stock' s.id  %}">Mettre à jour</a></td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

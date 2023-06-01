@@ -38,6 +38,8 @@ urlpatterns = [
      path('localisation_et_calcule_de_distance/', views.localisation_et_calcule_de_distance,
          name='localisation_et_calcule_de_distance'),
 
-     path('mettre_a_jour_stock/', views.mettre_a_jour_stock, name='mettre_a_jour_stock'),
+     path('mettre_a_jour_stock/<int:pk>/', views.mettre_a_jour_stock, name='mettre_a_jour_stock'),
+
+     path('initialiser_stock/', views.initialiser_stock, name='initialiser_stock'),
 
 ]

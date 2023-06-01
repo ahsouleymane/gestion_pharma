@@ -413,17 +413,13 @@ def liste_pharmacie_garde(request):
     return render(request, 'pharma/liste_pharmacie_garde_today.html', context)
 
 def initialiser_stock(request):
-    nombre_produit = Produit.objects.all().count()
-
+    form = StockForm()
+    
     if request.method == 'POST':
-        i = 0
-        while i < nombre_produit:
-            form = StockForm(request.POST)
+        form = StockForm(request.POST)
 
-            if form.is_valid():
-                form.save
-
-            i += 1
+        if form.is_valid():
+            form.save
 
         return redirect('/list_stock/')
                      

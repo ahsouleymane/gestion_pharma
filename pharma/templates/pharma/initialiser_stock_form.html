@@ -4,9 +4,12 @@
 
     {% csrf_token %}
 
-    <h2>Choisir une pharmacie</h2>
+    <h2>Saisir informations</h2>
 
     {{ form.pharmacie }}
+    {{ form.produit }}
+    {{ form.quantite_stock }}
+    {{ form.unite }}
 
     <button type="submit">Ajouter</button>
 
