@@ -413,13 +413,13 @@ def liste_pharmacie_garde(request):
     return render(request, 'pharma/liste_pharmacie_garde_today.html', context)
 
 def initialiser_stock(request):
-    form = StockForm()
+    form = StockForm
     
     if request.method == 'POST':
         form = StockForm(request.POST)
 
         if form.is_valid():
-            form.save
+            form.save()
 
         return redirect('/list_stock/')
                      
@@ -428,20 +428,36 @@ def initialiser_stock(request):
 
 def mettre_a_jour_stock(request, pk):
     stock = Stock.objects.get(id=pk)
-    liste_stock = [s for s in stock]
-    qte_stock = liste_stock[3]
+    form = StockForm(instance = stock)
+
+    un_stock = Stock.objects.values_list().filter(id=pk)
+
+    # Convertion de la requete qui est un tuple en liste
+    liste_du_stock = [qs for qs in un_stock]
+    print(liste_du_stock)
+
+    # recuperer le premier tuple de la liste
+    stock_tuple = liste_du_stock[0]
+    print(stock_tuple)
+
+    # Convertir le premier tuple de la liste en liste
+    liste_stock_tuple = [ls for ls in stock_tuple]
+    print(liste_stock_tuple)
+
+    # Recuperer le stock dans la liste
+    qte_stock = liste_stock_tuple[3]
     print(qte_stock)
 
     if request.method == 'POST':
-        form_stock = StockForm(request.POST)
-        liste_form_stock = [s for s in form_stock]
-        nouveau_stock = liste_form_stock[3]
-        print(nouveau_stock)
+        form = StockForm(request.POST, instance = stock)
 
-    qte_stock += nouveau_stock
+        if form.is_valid():
+            form.save()
+
+        return redirect('/list_stock/')
     
-    context = {"qte_stock": qte_stock}
-    return render(request, 'pharma/editer_stock_form.html', context)
+    context = {'form': form}
+    return render(request, 'pharma/mettre_a_jour_stock_form.html', context)
 
 def list_stock(request):
     stock = Stock.objects.all()

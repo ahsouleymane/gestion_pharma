@@ -27,10 +27,8 @@ urlpatterns = [
      path('liste_tour_garde_com5/', views.liste_tour_garde_com5, name='liste_tour_garde_com5'),
 
      path('liste_pharmacie_garde/', views.liste_pharmacie_garde, name='liste_pharmacie_garde'),
-     
-     path('ajouter_stock/', views.ajouter_stock, name='ajouter_stock'),
-    
-     path('mettre_a_jour_stock/<int:pk>/', views.mettre_a_jour_stock, name='mettre_a_jour_stock'),
+         
+     path('mettre_a_jour_stock_form/<int:pk>/', views.mettre_a_jour_stock, name='mettre_a_jour_stock_form'),
     
      path('rechercher_produit_en_fonction_de_pharmacie_et_stock/<int:pk>/', 
          views.rechercher_produit_en_fonction_de_pharmacie_et_stock, name='rechercher_produit_en_fonction_de_pharmacie_et_stock'),
@@ -41,5 +39,7 @@ urlpatterns = [
      path('mettre_a_jour_stock/<int:pk>/', views.mettre_a_jour_stock, name='mettre_a_jour_stock'),
 
      path('initialiser_stock/', views.initialiser_stock, name='initialiser_stock'),
+
+     path('list_stock/', views.list_stock, name='list_stock'),
 
 ]

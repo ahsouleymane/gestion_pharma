@@ -4,8 +4,9 @@
 
     {% csrf_token %}
 
-    <h2>Saisir le stock</h2>
+    <h2>Mettre à jour le stock</h2>
 
+    {{ form.pharmacie }}
     {{ form.produit }}
     {{ form.quantite_stock }}
     {{ form.unite }}
