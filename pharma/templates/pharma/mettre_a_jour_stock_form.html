@@ -6,10 +6,10 @@
 
     <h2>Mettre à jour le stock</h2>
 
-    {{ form.pharmacie }}
-    {{ form.produit }}
-    {{ form.quantite_stock }}
-    {{ form.unite }}
+    Pharmacie: {{ form.pharmacie }}
+    Produit: {{ form.produit }}
+    Quantité Stock: <input type="number" class="field" id="nouveau_stock" name="nouveau_stock" required>
+    Unité de mesure: {{ form.unite }}
 
     <button type="submit">Mettre à jour</button>
 

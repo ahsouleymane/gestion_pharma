@@ -449,6 +449,15 @@ def mettre_a_jour_stock(request, pk):
     print(qte_stock)
 
     if request.method == 'POST':
+        nouveau_stock = request.POST['nouveau_stock']
+        nouveau_stock = int(nouveau_stock)
+        print(nouveau_stock)
+
+        qte_stock += nouveau_stock
+        print(qte_stock)
+
+        Stock.objects.update(quantite_stock = qte_stock)
+
         form = StockForm(request.POST, instance = stock)
 
         if form.is_valid():
