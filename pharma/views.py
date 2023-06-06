@@ -464,16 +464,20 @@ def mettre_a_jour_stock(request, pk):
     id_unite = liste_stock_tuple[4]
     queryset_unite = Unite.objects.filter(id=id_unite)
     liste_unite = [lu for lu in queryset_unite]
-    unite = liste_unite[0]
-    # print(qte_stock)
+    unite = liste_unite[0] 
 
     if request.method == 'POST':
         nouveau_stock = request.POST['nouveau_stock']
         nouveau_stock = int(nouveau_stock)
-        print(nouveau_stock)
+        # print(nouveau_stock)
+
+        if nouveau_stock <= 0:
+            messages.info(request, "Veuillez saisir un chiffre valide !!!")
+            context = {'pharmacie': pharmacie, 'produit': produit, 'unite': unite}
+            return render(request, 'pharma/mettre_a_jour_stock_form.html', context)
 
         qte_stock += nouveau_stock
-        print(qte_stock)
+        # print(qte_stock)
 
         Stock.objects.update(quantite_stock = qte_stock)
 
