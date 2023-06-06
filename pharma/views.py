@@ -427,26 +427,45 @@ def initialiser_stock(request):
     return render(request, 'pharma/initialiser_stock_form.html', context)
 
 def mettre_a_jour_stock(request, pk):
-    stock = Stock.objects.get(id=pk)
-    form = StockForm(instance = stock)
-
     un_stock = Stock.objects.values_list().filter(id=pk)
 
     # Convertion de la requete qui est un tuple en liste
     liste_du_stock = [qs for qs in un_stock]
-    print(liste_du_stock)
+    # print(liste_du_stock)
 
     # recuperer le premier tuple de la liste
     stock_tuple = liste_du_stock[0]
-    print(stock_tuple)
+    # print(stock_tuple)
 
     # Convertir le premier tuple de la liste en liste
     liste_stock_tuple = [ls for ls in stock_tuple]
-    print(liste_stock_tuple)
+    # print(liste_stock_tuple)
 
-    # Recuperer le stock dans la liste
+    # Recuperer les éléments dans la liste
+
+    """ Pourquoi faire 4 lignes pour recuperer la pharmacie, le produit et l'unité: 
+     parce que ces champ dans la table stock sont des clées etrangères, ce qui 
+      veut dire que nous avons leur Id et non les données réelles. Donc nous 
+       avons utilisé ces Id pour recuperer les données réelles dans leur table
+         d'origine.  """
+    
+    id_pharmacie = liste_stock_tuple[1]
+    queryset_pharmacie = PharmacieGarde.objects.filter(id=id_pharmacie)
+    liste_pharmacie = [lp for lp in queryset_pharmacie]
+    pharmacie = liste_pharmacie[0]
+
+    id_produit = liste_stock_tuple[2]
+    queryset_produit = Produit.objects.filter(id=id_produit)
+    liste_produit = [lp for lp in queryset_produit]
+    produit = liste_produit[0]
+
     qte_stock = liste_stock_tuple[3]
-    print(qte_stock)
+
+    id_unite = liste_stock_tuple[4]
+    queryset_unite = Unite.objects.filter(id=id_unite)
+    liste_unite = [lu for lu in queryset_unite]
+    unite = liste_unite[0]
+    # print(qte_stock)
 
     if request.method == 'POST':
         nouveau_stock = request.POST['nouveau_stock']
@@ -458,14 +477,9 @@ def mettre_a_jour_stock(request, pk):
 
         Stock.objects.update(quantite_stock = qte_stock)
 
-        form = StockForm(request.POST, instance = stock)
-
-        if form.is_valid():
-            form.save()
-
         return redirect('/list_stock/')
     
-    context = {'form': form}
+    context = {'pharmacie': pharmacie, 'produit': produit, 'unite': unite}
     return render(request, 'pharma/mettre_a_jour_stock_form.html', context)
 
 def list_stock(request):
