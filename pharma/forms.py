@@ -67,7 +67,7 @@ class StockForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
             super(StockForm,self).__init__(*args, **kwargs)
             self.fields['pharmacie'].empty_label = "Choisir"
-            self.fields['produit'].empty_label = "Choisir"
+            self.fields['produit'].empty_label = "Taper les caractères de début du produit"
             self.fields['unite'].empty_label = "Choisir"
 
 class GroupeForm(forms.ModelForm):
