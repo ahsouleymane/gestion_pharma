@@ -1,7 +1,16 @@
 {% block content %}
 
 <h2>Le Stock</h2>
+<h4><a href="{% url 'initialiser_stock' %}">Ajouter Stock</a></h4>
 <hr>
+
+<form method="get">
+
+    {{ stockFilter.form }}
+
+    <button class="btn btn-info" type="submit">Rechercher</button>
+
+</form>
 
 <table class="table table-sm">
     <tr>

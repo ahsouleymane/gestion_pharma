@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from datetime import date
+from pharma.filters import *
 
 from pharma.forms import *
 from pharma.models import *
@@ -487,6 +488,8 @@ def mettre_a_jour_stock(request, pk):
     return render(request, 'pharma/mettre_a_jour_stock_form.html', context)
 
 def list_stock(request):
-    stock = Stock.objects.all()
-    context = {"stock": stock}
+    stocks = Stock.objects.all()
+    stockFilter = StockFilter(request.GET, queryset=stocks)
+    stock = stockFilter.qs
+    context = {"stock": stock, 'stockFilter': stockFilter}
     return render(request, 'pharma/list_stock.html', context)
