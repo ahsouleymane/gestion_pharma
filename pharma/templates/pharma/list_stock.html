@@ -27,6 +27,7 @@
             <td>{{ s.quantite_stock }}</td>
             <td>{{ s.unite }}</td>
             <td><a href="{% url 'mettre_a_jour_stock' s.id  %}">Mettre à jour</a></td>
+            <td><a href="{% url 'ajouter_au_panier' s.id  %}">Mettre à jour</a></td>
         </tr>
     {% endfor %}
 </table>

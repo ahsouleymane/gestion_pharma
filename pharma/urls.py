@@ -30,9 +30,6 @@ urlpatterns = [
          
      path('mettre_a_jour_stock_form/<int:pk>/', views.mettre_a_jour_stock, name='mettre_a_jour_stock_form'),
     
-     path('rechercher_produit_en_fonction_de_pharmacie_et_stock/<int:pk>/', 
-         views.rechercher_produit_en_fonction_de_pharmacie_et_stock, name='rechercher_produit_en_fonction_de_pharmacie_et_stock'),
-
      path('localisation_et_calcule_de_distance/', views.localisation_et_calcule_de_distance,
          name='localisation_et_calcule_de_distance'),
 

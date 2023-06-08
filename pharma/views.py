@@ -106,15 +106,6 @@ def list_produit(request):
     context = {'produit': produit}
     return render(request, 'pharma/list_produit.html', context)
 
-def ajouter_stock(request):
-    pass
-
-def mettre_a_jour_stock(request):
-    pass
-
-def rechercher_produit_en_fonction_de_pharmacie_et_stock(request):
-    pass
-
 def localisation_et_calcule_de_distance(request):
     #### Distances calculation
 
@@ -492,4 +483,40 @@ def list_stock(request):
     stockFilter = StockFilter(request.GET, queryset=stocks)
     stock = stockFilter.qs
     context = {"stock": stock, 'stockFilter': stockFilter}
+    return render(request, 'pharma/list_stock.html', context)
+
+def ajouter_au_panier(request, pk):
+    un_stock = Stock.objects.values_list().filter(id=pk)
+    liste_du_stock = [qs for qs in un_stock]
+    stock_tuple = liste_du_stock[0]
+    liste_stock_tuple = [ls for ls in stock_tuple]
+
+    id_pharmacie = liste_stock_tuple[1]
+    queryset_pharmacie = PharmacieGarde.objects.filter(id=id_pharmacie)
+    liste_pharmacie = [lp for lp in queryset_pharmacie]
+    pharmacie = liste_pharmacie[0]
+
+    id_produit = liste_stock_tuple[2]
+    queryset_produit = Produit.objects.filter(id=id_produit)
+    liste_produit = [lp for lp in queryset_produit]
+    produit = liste_produit[0]
+
+    qte_stock = liste_stock_tuple[3]
+
+    id_unite = liste_stock_tuple[4]
+    queryset_unite = Unite.objects.filter(id=id_unite)
+    liste_unite = [lu for lu in queryset_unite]
+    unite = liste_unite[0]
+
+    qte_produit = 0
+
+    if qte_stock > 0:
+        qte_produit += 1 
+        
+    qte_stock -= qte_produit
+
+    panier = []
+    panier.append(pharmacie, produit, qte_produit, unite)
+
+    context = {'panier', panier}
     return render(request, 'pharma/list_stock.html', context)
