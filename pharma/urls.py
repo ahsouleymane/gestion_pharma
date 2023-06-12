@@ -39,4 +39,6 @@ urlpatterns = [
 
      path('list_stock/', views.list_stock, name='list_stock'),
 
+     path('ajouter_au_panier/<int:pk>/', views.ajouter_au_panier, name='ajouter_au_panier'),
+
 ]

@@ -3,6 +3,8 @@
 <h2>Le Stock</h2>
 <h4><a href="{% url 'initialiser_stock' %}">Ajouter Stock</a></h4>
 <hr>
+<h4><a href="{% url 'initialiser_stock' %}">Panier</a></h4>
+<hr>
 
 <form method="get">
 
@@ -26,8 +28,8 @@
             <td>{{ s.produit }}</td>
             <td>{{ s.quantite_stock }}</td>
             <td>{{ s.unite }}</td>
-            <td><a href="{% url 'mettre_a_jour_stock' s.id  %}">Mettre à jour</a></td>
-            <td><a href="{% url 'ajouter_au_panier' s.id  %}">Mettre à jour</a></td>
+            <td><a href="{% url 'mettre_a_jour_stock' s.id  %}">Mettre à jour</a>&nbsp; | &nbsp;</td>
+            <td><a href="{% url 'ajouter_au_panier' s.id  %}">Ajouter au panier</a></td>
         </tr>
     {% endfor %}
 </table>
