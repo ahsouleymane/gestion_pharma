@@ -496,17 +496,16 @@ def ajouter_au_panier(request, pk):
     liste_pharmacie = [lp for lp in queryset_pharmacie]
     pharmacie = liste_pharmacie[0]
 
+    print(pharmacie)
+
     id_produit = liste_stock_tuple[2]
     queryset_produit = Produit.objects.filter(id=id_produit)
     liste_produit = [lp for lp in queryset_produit]
     produit = liste_produit[0]
 
-    qte_stock = liste_stock_tuple[3]
+    print(produit)
 
-    id_unite = liste_stock_tuple[4]
-    queryset_unite = Unite.objects.filter(id=id_unite)
-    liste_unite = [lu for lu in queryset_unite]
-    unite = liste_unite[0]
+    qte_stock = liste_stock_tuple[3]
 
     qte_produit = 0
 
@@ -515,8 +514,36 @@ def ajouter_au_panier(request, pk):
         
     qte_stock -= qte_produit
 
-    panier = []
-    panier.append(pharmacie, produit, qte_produit, unite)
+    print(qte_produit)
 
-    context = {'panier', panier}
-    return render(request, 'pharma/list_stock.html', context)
+    id_unite = liste_stock_tuple[4]
+    queryset_unite = Unite.objects.filter(id=id_unite)
+    liste_unite = [lu for lu in queryset_unite]
+    unite = liste_unite[0]
+
+    print(unite)
+
+    ordre_vente, created = OrdreVente.objects.get_or_create(id=pk,
+                                    pharmacie_ordre=pharmacie,
+                                    produit_ordre=produit,
+                                    quantite_produit=qte_produit,
+                                    unite_ordre=unite)
+    if ordre_vente.id == pk:
+        ordre_vente.quantite_produit = (ordre_vente.quantite_produit + 1)
+
+    if ordre_vente.quantite_produit < qte_stock:
+        messages.info(request, "Stock Epuisé !!!")
+        stocks = Stock.objects.all()
+        stockFilter = StockFilter(request.GET, queryset=stocks)
+        stock = stockFilter.qs
+        context = {"stock": stock, 'stockFilter': stockFilter}
+        return render(request, 'pharma/list_stock.html', context)
+        
+    ordre_vente.save()
+
+    return redirect('/list_stock/')
+
+def panier(request):
+    ordre_vente = OrdreVente.objects.all()
+    context = {'ordre_vente': ordre_vente}
+    return render(request, 'pharma/panier.html', context)
