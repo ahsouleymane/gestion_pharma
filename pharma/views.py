@@ -451,8 +451,6 @@ def mettre_a_jour_stock(request, pk):
     liste_produit = [lp for lp in queryset_produit]
     produit = liste_produit[0]
 
-    qte_stock = liste_stock_tuple[3]
-
     id_unite = liste_stock_tuple[4]
     queryset_unite = Unite.objects.filter(id=id_unite)
     liste_unite = [lu for lu in queryset_unite]
@@ -467,11 +465,11 @@ def mettre_a_jour_stock(request, pk):
             messages.info(request, "Veuillez saisir un chiffre valide !!!")
             context = {'pharmacie': pharmacie, 'produit': produit, 'unite': unite}
             return render(request, 'pharma/mettre_a_jour_stock_form.html', context)
+        else:
+            stock = Stock.objects.get(id=pk)
+            stock.quantite_stock = (stock.quantite_stock + nouveau_stock)
 
-        qte_stock += nouveau_stock
-        # print(qte_stock)
-
-        Stock.objects.update(quantite_stock = qte_stock)
+        stock.save()
 
         return redirect('/list_stock/')
     
@@ -505,17 +503,6 @@ def ajouter_au_panier(request, pk):
 
     print(produit)
 
-    qte_stock = liste_stock_tuple[3]
-
-    qte_produit = 0
-
-    if qte_stock > 0:
-        qte_produit += 1 
-        
-    qte_stock -= qte_produit
-
-    print(qte_produit)
-
     id_unite = liste_stock_tuple[4]
     queryset_unite = Unite.objects.filter(id=id_unite)
     liste_unite = [lu for lu in queryset_unite]
@@ -523,25 +510,37 @@ def ajouter_au_panier(request, pk):
 
     print(unite)
 
-    ordre_vente, created = OrdreVente.objects.get_or_create(id=pk,
-                                    pharmacie_ordre=pharmacie,
-                                    produit_ordre=produit,
-                                    quantite_produit=qte_produit,
-                                    unite_ordre=unite)
-    if ordre_vente.id == pk:
-        ordre_vente.quantite_produit = (ordre_vente.quantite_produit + 1)
+    stock = Stock.objects.get(id=pk) 
 
-    if ordre_vente.quantite_produit < qte_stock:
+    if stock.quantite_stock == 0:
         messages.info(request, "Stock Epuisé !!!")
         stocks = Stock.objects.all()
         stockFilter = StockFilter(request.GET, queryset=stocks)
         stock = stockFilter.qs
         context = {"stock": stock, 'stockFilter': stockFilter}
         return render(request, 'pharma/list_stock.html', context)
+    
+    try:
+        ordre_vente = OrdreVente.objects.get(id=pk)
+    except OrdreVente.DoesNotExist:
+        ordre_vente = None
+    
+    if ordre_vente is None:
+        ordre_vente = OrdreVente.objects.create(id=pk,
+                                    pharmacie_ordre=str(pharmacie),
+                                    produit_ordre=str(produit),
+                                    quantite_produit=1,
+                                    unite_ordre=str(unite))
+    else:
+        ordre_vente.quantite_produit = (ordre_vente.quantite_produit + 1)
         
     ordre_vente.save()
 
-    return redirect('/list_stock/')
+    stocks = Stock.objects.all()
+    stockFilter = StockFilter(request.GET, queryset=stocks)
+    stock = stockFilter.qs
+    context = {"stock": stock, 'stockFilter': stockFilter}
+    return render(request, 'pharma/list_stock.html', context)
 
 def panier(request):
     ordre_vente = OrdreVente.objects.all()
