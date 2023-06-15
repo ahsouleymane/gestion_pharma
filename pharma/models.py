@@ -88,14 +88,21 @@ class TourGardeCom5(models.Model):
     def __str__(self):
         return 'Du ' + str(self.debut_tour) + ' au ' + str(self.fin_tour)
     
-class OrdreVente(models.Model):
+class Commande(models.Model):
     id = models.IntegerField(unique=True, primary_key=True, editable=False)
-    pharmacie_ordre = models.CharField(max_length=40, null=True)
-    produit_ordre = models.CharField(max_length=60, null=True)
+    pharmacie_ou_vient_la_commande = models.CharField(max_length=40, null=True)
+    produit_commandE = models.CharField(max_length=60, null=True)
     quantite_produit = models.IntegerField(null=True, default=0)
-    unite_ordre = models.CharField(max_length=40, null=True)
+    unite_de_la_commande = models.CharField(max_length=40, null=True)
     valider = models.BooleanField(default=False, null=True, blank=True)
     date_ajout = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return 'Pharmacie: ' + str(self.pharmacie_ordre) + ' Produit: ' + str(self.produit_ordre) + ' Quantité Produit: ' +  str(self.quantite_produit) + ' ' + str(self.unite_ordre)
+
+    @property
+    def total_produit(self):
+        total = 0
+        if self.valider:
+            total = sum(id)
+

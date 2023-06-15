@@ -521,20 +521,20 @@ def ajouter_au_panier(request, pk):
         return render(request, 'pharma/list_stock.html', context)
     
     try:
-        ordre_vente = OrdreVente.objects.get(id=pk)
-    except OrdreVente.DoesNotExist:
-        ordre_vente = None
+        commande = Commande.objects.get(id=pk)
+    except Commande.DoesNotExist:
+        commande = None
     
-    if ordre_vente is None:
-        ordre_vente = OrdreVente.objects.create(id=pk,
-                                    pharmacie_ordre=str(pharmacie),
-                                    produit_ordre=str(produit),
+    if commande is None:
+        commande = Commande.objects.create(id=pk,
+                                    pharmacie_ou_vient_la_commande=str(pharmacie),
+                                    produit_commandE=str(produit),
                                     quantite_produit=1,
                                     unite_ordre=str(unite))
     else:
-        ordre_vente.quantite_produit = (ordre_vente.quantite_produit + 1)
+        commande.quantite_produit = (commande.quantite_produit + 1)
         
-    ordre_vente.save()
+    commande.save()
 
     stocks = Stock.objects.all()
     stockFilter = StockFilter(request.GET, queryset=stocks)
@@ -543,6 +543,6 @@ def ajouter_au_panier(request, pk):
     return render(request, 'pharma/list_stock.html', context)
 
 def panier(request):
-    ordre_vente = OrdreVente.objects.all()
+    ordre_vente = Commande.objects.all()
     context = {'ordre_vente': ordre_vente}
     return render(request, 'pharma/panier.html', context)

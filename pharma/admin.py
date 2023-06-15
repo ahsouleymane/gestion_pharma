@@ -9,7 +9,7 @@ admin.site.register(Stock)
 admin.site.register(Groupe)
 admin.site.register(Unite)
 admin.site.register(PaysVille)
-admin.site.register(OrdreVente)
+admin.site.register(Commande)
 
 @admin.register(PharmacieGarde)
 class PharmacieGardeAdmin(ImportExportModelAdmin):
